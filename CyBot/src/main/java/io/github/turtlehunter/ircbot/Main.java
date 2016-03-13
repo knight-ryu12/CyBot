@@ -1,12 +1,9 @@
 package io.github.turtlehunter.ircbot;
 
 
-import ca.jamiesinn.mcservicesapi.MCServicesAPI;
-import ca.jamiesinn.mcservicesapi.ServiceType;
 import ch.jamiete.mcping.MinecraftPing;
 import ch.jamiete.mcping.MinecraftPingOptions;
 import ch.jamiete.mcping.MinecraftPingReply;
-import ch.jamiete.mcping.MinecraftPingUtil;
 import org.jibble.pircbot.IrcException;
 
 import java.io.*;
@@ -16,54 +13,40 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * turtlehunter.github.IRCBot - uriel IRCBot 21/2/2016
- */
-
 public class Main {
-    private IRCBot ircBot;
-    public static Main main;
-    public static String password;
+    private IRCBot ircBot; // Leave This Alone
+    public static Main main; // Leave This Alone
+    public static String botname = "changethis"; // ex. CyBot
+    public static String password = "changethis"; // ex. CxVxCxBx
+    public static String home_server = "#changethis"; // ex. #test_server
+    public static String home_network = "irc_ip"; // ex. irc.esper.net
+    public static String p_supderadmin = "your_name_here"; // Your User Name Here
 
     public static void main(String[] args) {
         main = new Main();
     }
 
-    static String convertStreamToString(InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
-    }
-
     public Main() {
         initBot();
-        //do what you want here
     }
-
     private void initBot() {
-        String a = "irc.esper.net";
-        String b = "irc.spi.gt";
-        try {
-            password = new Scanner(new File("password.txt")).useDelimiter("\\Z").next();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
         ircBot = new IRCBot();
+
         try {
-            ircBot.connect(a);
+            ircBot.connect(home_network);
         } catch (IOException | IrcException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Connected: " + ircBot.isConnected());
-        changeName();
-        ircBot.joinChannel("#botserver");
+        logger("Connected: " + ircBot.isConnected());
+        changeName(botname);
+        ircBot.joinChannel(home_server);
         ircBot.sendMessage("NickServ", "identify " + password);
     }
 
     public void invite(String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel) {
         ArrayList<String> superadmin = new ArrayList<String>();
-        superadmin.add("Cykrix");
+        superadmin.add(p_supderadmin);
 
         if(!(superadmin.contains(sourceNick))){
             sendError(sourceHostname, "-- You cannot invite me to " + channel + "--");
@@ -74,7 +57,6 @@ public class Main {
         admin.add("Cykrix");
 
         if(admin.contains(sourceNick)){
-            changeName();
             ircBot.joinChannel(channel);
         }
     }
@@ -84,9 +66,11 @@ public class Main {
         if ( (message.startsWith("!"))) System.out.println("Command >> <" + sender + ">" + "<" + channel + "> | " + message);
 
         ArrayList<String> superadmin = new ArrayList<String>();
-        superadmin.add("Cykrix");
         ArrayList<String> admin = new ArrayList<String>();
-        admin.add("Cykrix");
+
+        superadmin.add(p_supderadmin);
+        admin.add(p_supderadmin);
+
         String[] s = message.split(" ");
         String pre = s[0];
 
@@ -144,6 +128,7 @@ public class Main {
 
             }
         }
+
         if (message.startsWith("!mcuser")) {
             String User;
             User = s[1];
@@ -171,6 +156,7 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             String out = null;
             String str = Boolean.toString(result);
             if(result == true){ out = ChatFormat.GREEN+"TRUE"; }
@@ -178,23 +164,22 @@ public class Main {
 
             sendMessage(channel, ChatFormat.GREEN + "|User Check| " + ChatFormat.LIGHT_GRAY +"<"+ User +">"+ " " + ChatFormat.CYAN + "[PAID: " + out + ChatFormat.CYAN + "]");
         }
-        if (message.startsWith("!mcstatus")) {
 
+        if (message.startsWith("!mcstatus")) {
+            // WIP : Submit Code If You Feel Like Making This : Checks Mojangs Server Status
         }
 
         // Channel Utilities
         if (message.startsWith("!join")) {
-            if(!(superadmin.contains(sender))){
-                sendError(sender, " You Cannot Set The Me To Enter Another Channel!");
-                return;
-            } else {
-            String joining = s[1];
-            if (!(joining.startsWith("#"))) {
-                joining = "#" + joining;
+            if(!(superadmin.contains(sender))){ sendError(sender, " You Cannot Set The Me To Enter Another Channel!"); return;}
+            else {
+                String joining = s[1];
+                if (!(joining.startsWith("#"))) {
+                    joining = "#" + joining;
+                }
+                ircBot.joinChannel(joining);
             }
-            ircBot.joinChannel(joining);
-            changeName();
-        } }
+        }
         if (message.equalsIgnoreCase("!quit")) {
             if(!(superadmin.contains(sender))){
                 sendError(sender, " You Cannot Disconnect Me From This Channel!");
@@ -216,10 +201,9 @@ public class Main {
     }
 
     // Custom Methods
-
-    public void changeName() {
-        if(!(ircBot.getNick().equals("CyBot"))) {
-            ircBot.changeNick("CyBot");
+    public void changeName(String name) {
+        if(!(ircBot.getNick().equals(name))) {
+            ircBot.changeNick(name);
         } else {
             return;
         }
@@ -236,6 +220,5 @@ public class Main {
     public void logger(String log){
         System.out.println(log);
     }
-
 }
 
