@@ -5,6 +5,8 @@ import ch.jamiete.mcping.MinecraftPing;
 import ch.jamiete.mcping.MinecraftPingOptions;
 import ch.jamiete.mcping.MinecraftPingReply;
 import org.jibble.pircbot.IrcException;
+import org.jibble.pircbot.PircBot;
+import org.jibble.pircbot.User;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -62,8 +64,8 @@ public class Main {
     }
 
     public void received(String channel, String sender, String login, String hostname, String message) {
-        if (!(message.startsWith("!"))) System.out.println("Message >> <" + sender + ">" + "<" + channel + "> | " + message);
-        if ( (message.startsWith("!"))) System.out.println("Command >> <" + sender + ">" + "<" + channel + "> | " + message);
+        if (!(message.startsWith("!"))) logger("Message >> <" + sender + ">" + "<" + channel + "> | " + message);
+        if ( (message.startsWith("!"))) logger("Command >> <" + sender + ">" + "<" + channel + "> | " + message);
 
         ArrayList<String> superadmin = new ArrayList<String>();
         ArrayList<String> admin = new ArrayList<String>();
@@ -72,7 +74,7 @@ public class Main {
         admin.add(p_supderadmin);
 
         String[] s = message.split(" ");
-        String pre = s[0];
+        String target = s[1];
 
         // Help Command
         if (message.startsWith("!help")) {
@@ -83,9 +85,8 @@ public class Main {
 
         // Bot Utilities
         if(message.startsWith("!ping")){
-            ircBot.sendMessage(channel, "Pong!");
+            ircBot.sendNotice(sender, "Pong!");
         }
-        if(message.startsWith("!test")){}
 
         // Minecraft Utilities
         if (message.startsWith("!mcping")) {
@@ -128,7 +129,6 @@ public class Main {
 
             }
         }
-
         if (message.startsWith("!mcuser")) {
             String User;
             User = s[1];
@@ -164,7 +164,6 @@ public class Main {
 
             sendMessage(channel, ChatFormat.GREEN + "|User Check| " + ChatFormat.LIGHT_GRAY +"<"+ User +">"+ " " + ChatFormat.CYAN + "[PAID: " + out + ChatFormat.CYAN + "]");
         }
-
         if (message.startsWith("!mcstatus")) {
             // WIP : Submit Code If You Feel Like Making This : Checks Mojangs Server Status
         }
@@ -198,6 +197,100 @@ public class Main {
             return;
         } }
 
+        // IRC Utilities
+        if (message.startsWith("!kick")) {
+            User users[] = ircBot.getUsers( channel );
+            User u = null;
+            User uu = null;
+
+            for( User user : users ){
+                if( sender.equals( user.getNick().equals(s[1]) ) ){
+                    u = user;
+                    break;
+                }
+            }
+
+            for( User user : users ){
+                if( sender.equals( user.getNick().equals(sender) ) ){
+                    uu = user;
+                    break;
+                }
+            }
+
+            if(u.isOp()){ sendError(sender, "You Cannot Kick This User!"); return; }
+            if(u.hasVoice() && (!(uu.isOp()))){ sendError(sender, "You Cannot Kick This User!"); return; }
+
+            ArrayList<String> kickmsg = new ArrayList<String>();
+
+            int n = 2;
+            while(!(s[n].isEmpty())){
+                kickmsg.add(s[n]);
+                n++;
+            }
+
+            ircBot.kick(channel, u.getNick(), kickmsg.toString());
+
+        }
+        if (message.startsWith("!ban")) {
+
+            User users[] = ircBot.getUsers( channel );
+            User u = null;
+            User uu = null;
+
+            for( User user : users ){
+                if( sender.equals( user.getNick().equals(s[1]) ) ){
+                    u = user;
+                    break;
+                }
+            }
+
+            for( User user : users ){
+                if( sender.equals( user.getNick().equals(sender) ) ){
+                    uu = user;
+                    break;
+                }
+            }
+
+            if(!(u.isOp())) { sendError(sender, "You Cannot Use This Command"); return; }
+            if(u.isOp()){ sendError(sender, "You Cannot Ban This User!"); return; }
+            if(u.hasVoice() && (!(uu.isOp()))){ sendError(sender, "You Cannot Ban This User!"); return; }
+
+            ArrayList<String> kickmsg = new ArrayList<String>();
+
+            int n = 2;
+            while(!(s[n].isEmpty())){
+                kickmsg.add(s[n]);
+                n++;
+            }
+
+            ircBot.ban(channel, u.getNick());
+
+        }
+        if (message.startsWith("!unban")) {
+
+            User users[] = ircBot.getUsers( channel );
+            User u = null;
+            User uu = null;
+
+            for( User user : users ){
+                if( sender.equals( user.getNick().equals(s[1]) ) ){
+                    u = user;
+                    break;
+                }
+            }
+
+            for( User user : users ){
+                if( sender.equals( user.getNick().equals(sender) ) ){
+                    uu = user;
+                    break;
+                }
+            }
+
+            if(!(u.isOp())) { sendError(sender, "You Cannot Use This Command"); return; }
+
+            ircBot.unBan(channel, u.getNick());
+
+        }
     }
 
     // Custom Methods
@@ -219,6 +312,9 @@ public class Main {
     }
     public void logger(String log){
         System.out.println(log);
+    }
+    public void kick(String target, String[] message){
+
     }
 }
 
