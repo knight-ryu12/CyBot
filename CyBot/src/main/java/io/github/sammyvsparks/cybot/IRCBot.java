@@ -1,11 +1,11 @@
-package io.github.turtlehunter.ircbot;
+package io.github.sammyvsparks.cybot;
 
 import org.jibble.pircbot.PircBot;
 
 public class IRCBot extends PircBot {
     public IRCBot() {
-        this.setName("BotName"); // Change This
-        this.setLogin("BotServer"); // Change This
+        this.setName("changeme"); // Change This
+        this.setLogin("changeme"); // Change This
     }
 
     @Override

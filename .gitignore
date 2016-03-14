@@ -7,3 +7,4 @@ out
 *.bin
 dependency-reduced-pom.xml
 CyBot/password.txt
+CyBot/src/Temp/storage.txt

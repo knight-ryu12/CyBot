@@ -1,4 +1,4 @@
-package io.github.turtlehunter.ircbot;
+package io.github.sammyvsparks.cybot;
 
 
 import java.util.EnumMap;
