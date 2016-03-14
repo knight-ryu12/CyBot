@@ -15,7 +15,8 @@ public class Commands {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void helpCommand(String sender, String channel){
-        Main.ircBot.sendMessage(channel, "Testing Testing");
+        Main.ircBot.sendMessage(channel, "Testing Testing"); // Works
+        irc.sendMessage(channel, "Testing 2"); // Fails
     }
 
 }
