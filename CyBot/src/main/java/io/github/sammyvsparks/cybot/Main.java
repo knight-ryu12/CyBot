@@ -1,83 +1,74 @@
 package io.github.sammyvsparks.cybot;
 
 
-import io.github.sammyvsparks.cybot.Methods.Commands;
-import io.github.sammyvsparks.cybot.Methods.IrcMethods;
-import io.github.sammyvsparks.cybot.Methods.MinecraftMethods;
-import io.github.sammyvsparks.cybot.Methods.UtilityMethods;
-import org.jibble.pircbot.IrcException;
+import me.urielsalis.IRCApi.EventManager;
+import me.urielsalis.IRCApi.IRCApi;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
+
+/** All Source Code In The 2 Main API Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+ *  Developer of Personal Code | Cykrix
+ *  -- https://github.com/sammyvsparks/CyBot
+ */
+
 
 public class Main {
-
-    private Commands c;
-    private MinecraftMethods mc;
-    private UtilityMethods ut;
-    private IrcMethods irc;
-
-    public static IRCBot ircBot; // Leave This Alone
-    public static Main main; // Leave This Alone
-    public static String botname = "changeme"; // ex. CyBot -- This is Automatically Grouped With Your Bots Main Account
-    public static String password = "changeme"; // ex. CxVxCxBx
-    public static String home_server = "#changeme"; // ex. #test_server
-    public static String home_network = "changeme"; // ex. irc.esper.net
-    public static String p_host = "changeme"; // Your User Name Here
-    public static ArrayList<String> superadmin = new ArrayList<String>();
-    public static ArrayList<String> admin = new ArrayList<String>();
+    public static IRCApi api;
+    public static Main main;
+    static ArrayList<String> channels = new ArrayList();
+    public static String uuid = UUID.randomUUID().toString();
 
     public static void main(String[] args) {
         main = new Main();
     }
 
     public Main() {
-        initBot();
+        System.out.println("Initializing...");
+        this.initBot();
     }
 
-    public void initBot() {
+    private void joinChannel(String channel) {
+        if(channels.contains(channel)){ return; }
+        api.join(channel);
+        System.out.println("Joined Channel " + channel);
+        channels.add(channel);
+    }
 
-        ircBot = new IRCBot();
-        c = new Commands();
-        mc = new MinecraftMethods();
-        ut = new UtilityMethods();
-        irc = new IrcMethods();
+    private void initBot() {
+        api = new IRCApi();
+
+        new Thread() {
+            @Override
+            public void run() {
+                api.init("irc.esper.net", 6667, "", "CyBot", "CyBot", "CyBot", false);
+                api.start();
+            }
+        }.start();
 
         try {
-            ircBot.connect(home_network);
-        } catch (IOException | IrcException e) {
-            e.printStackTrace();
+            Thread.sleep(6000);
+        } catch (InterruptedException var3) {
+            var3.printStackTrace();
         }
 
-        irc.changeName(botname);
-        ut.joinChannel(home_server);
-        irc.sendMessage("NickServ", "identify " + password);
+        System.out.println("Reflection Start... [Loading Files]");
+        EventManager.commandPrefix = ">";
+        EventManager.addClass(Listeners.class);
 
-        superadmin.add(p_host);
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException var2) {
+            var2.printStackTrace();
+        }
+
+        System.out.println("Loading Complete [Reflection Complete]");
+        this.joinChannel("#botserver");
+        this.joinChannel("#botminecraft");
+        System.out.println("Session Token: " + uuid);
     }
 
-    // Moving to Own Class Shortly
-    public void invite(String targetNick, String sourceNick, String sourceLogin, String sourceHostname, String channel) {
-        if(superadmin.contains(sourceNick) || sourceNick.equals(p_host)) {
-            irc.sendMessage(sourceNick, sourceNick + ": I have Joined The Channel [" + channel + "]");
-            ut.joinChannel(channel);
-        } else {
-            irc.sendError(sourceNick, "You Cannot Invite Me To " + channel + ". @" + sourceNick );
-        }
-    }
-
-    public void received(String channel, String sender, String login, String hostname, String message) {
-        if (!(message.startsWith("!"))) irc.getLogger("Message >> <" + sender + ">" + "<" + channel + "> + " + message);
-        if ((message.startsWith("!"))) irc.getLogger("Command >> <" + sender + ">" + "<" + channel + "> + " + message);
-
-        superadmin.add(""); // Adds User To SUPER_ADMIN
-        admin.add(""); // Adds User To ADMIN
-
-        String[] s = message.split(" ");
-
-        if(message.startsWith("--help")) {
-            c.helpCommand(sender, channel);
-        }
+    public static void refreshSession() {
+        uuid = UUID.randomUUID().toString();
     }
 }
-

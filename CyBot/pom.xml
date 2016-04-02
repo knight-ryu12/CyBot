@@ -4,10 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>turtlehunter.github</groupId>
-    <artifactId>MC-CykrixBot</artifactId>
-    <version>1.0</version>
+    <groupId>io.github.sammyvsparks.cybot</groupId>
+    <artifactId>CykrixBotBeta</artifactId>
+    <version>1.0-Beta</version>
     <build>
+
+        <defaultGoal>install</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -85,12 +88,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.6.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ca.jamiesinn</groupId>
-            <artifactId>mcservicesapi</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
