@@ -1,23 +1,22 @@
 package io.github.sammyvsparks.cybot;
 
-
 import me.urielsalis.IRCApi.EventManager;
 import me.urielsalis.IRCApi.IRCApi;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** All Source Code In The 2 Main API Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+/** All Source Code In The 2 Main Library Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
  *  Developer of Personal Code | Cykrix
  *  -- https://github.com/sammyvsparks/CyBot
  */
-
 
 public class Main {
     public static IRCApi api;
     public static Main main;
     static ArrayList<String> channels = new ArrayList();
     public static String uuid = UUID.randomUUID().toString();
+    public static String homechannel = "#botminecraft";
 
     public static void main(String[] args) {
         main = new Main();
@@ -48,8 +47,8 @@ public class Main {
 
         try {
             Thread.sleep(6000);
-        } catch (InterruptedException var3) {
-            var3.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         System.out.println("Reflection Start... [Loading Files & Systems]");
@@ -58,13 +57,13 @@ public class Main {
 
         try {
             Thread.sleep(4000);
-        } catch (InterruptedException var2) {
-            var2.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         System.out.println("Loading Complete [Reflection Complete]");
         this.joinChannel("#botserver");
-        this.joinChannel("#botminecraft");
+        this.joinChannel(homechannel);
         System.out.println("Session Token: " + uuid);
     }
 

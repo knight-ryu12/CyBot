@@ -1,5 +1,10 @@
 package io.github.sammyvsparks.cybot.MineCalls;
 
+/** All Source Code In The 2 Main Library Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+ *  Developer of Personal Code | Cykrix (Help from Urielsalis for JSON)--^
+ *  -- https://github.com/sammyvsparks/CyBot
+ */
+
 import io.github.sammyvsparks.cybot.ChatFormat;
 import io.github.sammyvsparks.cybot.Main;
 import io.github.sammyvsparks.cybot.SystemCalls.ExceptionErrors;
@@ -12,9 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
-/**
- * Created by sammy on 3/30/2016.
- */
 public class StatusCallBeta {
 
     JSONParser parser = new JSONParser();

@@ -1,11 +1,9 @@
 package io.github.sammyvsparks.cybot;
 
-
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.regex.Pattern;
     public enum ChatFormat {
-//Colors are nice IRC stuff copied from Absol with/without permission
 
     NORMAL("\u000f", Style.RESET),
     BOLD("\u0002", Style.FORMAT),

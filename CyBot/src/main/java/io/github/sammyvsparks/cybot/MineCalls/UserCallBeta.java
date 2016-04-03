@@ -1,5 +1,10 @@
 package io.github.sammyvsparks.cybot.MineCalls;
 
+/** All Source Code In The 2 Main Library Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+ *  Developer of Personal Code | Cykrix
+ *  -- https://github.com/sammyvsparks/CyBot
+ */
+
 import io.github.sammyvsparks.cybot.ChatFormat;
 import io.github.sammyvsparks.cybot.Main;
 import io.github.sammyvsparks.cybot.SystemCalls.ExceptionErrors;

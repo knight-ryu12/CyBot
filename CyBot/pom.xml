@@ -6,7 +6,7 @@
 
     <groupId>io.github.sammyvsparks.cybot</groupId>
     <artifactId>CykrixBotBeta</artifactId>
-    <version>1.0-Beta</version>
+    <version>1.1-Beta</version>
     <build>
 
         <defaultGoal>install</defaultGoal>

@@ -1,5 +1,11 @@
 package io.github.sammyvsparks.cybot.SystemCalls;
 
+/** All Code in This Section handles errors that sections may throw. Please deprecate any that you add replacements for. DO NOT REMOVE
+ * =========================================================================================================================================
+ * All Source Code In The 2 Main Library Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+ *  Developer of Personal Code | Cykrix
+ *  -- https://github.com/sammyvsparks/CyBot
+ */
 
 import io.github.sammyvsparks.cybot.ChatFormat;
 

@@ -1,5 +1,6 @@
 package io.github.sammyvsparks.cybot;
 
+import io.github.sammyvsparks.cybot.Database.FactoidStorage;
 import io.github.sammyvsparks.cybot.Database.ReadError;
 import io.github.sammyvsparks.cybot.MineCalls.ServerCallBeta;
 import io.github.sammyvsparks.cybot.MineCalls.StatusCallBeta;
@@ -8,12 +9,17 @@ import io.github.sammyvsparks.cybot.SystemCalls.ExceptionErrors;
 import io.github.sammyvsparks.cybot.Wrappers.IRCWrappers;
 import me.urielsalis.IRCApi.events.*;
 
+/** All Source Code In The 2 Main Library Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+ *  Developer of Personal Code | Cykrix
+ *  -- https://github.com/sammyvsparks/CyBot
+ */
 
 public class Listeners {
     ReadError paste = new ReadError();
     StatusCallBeta MineCallStatus = new StatusCallBeta();
     ServerCallBeta MineCallServer = new ServerCallBeta();
     UserCallBeta MineCallUser = new UserCallBeta();
+    FactoidStorage Factoid = new FactoidStorage();
     ExceptionErrors exceptions = new ExceptionErrors();
     IRCWrappers wrappers = new IRCWrappers();
     static String userCp = "";
@@ -53,9 +59,19 @@ public class Listeners {
 
     @Command("scan")
     public void checkPaste(Event event, String[] args) {
-        String sender = ((OnPrivmsg)event).u.getNick();
-        this.paste.readError(args[0], sender);
-        userCp = sender;
+        userCp = ((OnPrivmsg)event).u.getNick();
+        this.paste.readError(args[0], userCp);
+    }
+
+    @Command("send")
+    public void sendFaq(Event event, String[] args) {
+         String sender = ((OnPrivmsg)event).u.getNick();
+        Factoid.factoidLookup(sender, args);
+    }
+
+    @Command("database")
+    public void getDatabase(Event event, String[] args) {
+        // TODO : Database List
     }
 
     @Command("query")
@@ -94,7 +110,7 @@ public class Listeners {
             chan = "#" + chan;
         }
 
-        if(!chan.equals("CyBot")) {
+        if(!chan.equals("CyBot") && !chan.equals(Main.homechannel)) {
             Main.api.join(chan);
         }
     }
@@ -102,7 +118,8 @@ public class Listeners {
     @Command("quit")
     public void PartChannel(Event event, String[] args) {
         OnPrivmsg priv = (OnPrivmsg)event;
-        if(!priv.chan.equals("CyBot")) {
+        if(!priv.chan.equals("CyBot") && !priv.chan.equals("#botminecraft")) {
+            Main.api.notice(priv.u.getNick(), "Disconnecting:QUIT_COMMAND | Channel Connection Terminated.");
             Main.api.partChannel(priv.chan, "Disconnected:QUIT_COMMAND");
         }
     }
@@ -111,6 +128,7 @@ public class Listeners {
     public void onInvite(Event event) {
         OnInvite inv = (OnInvite)event;
         String chan = inv.chan;
+
         if(!inv.chan.equals("CyBot")) {
             Main.api.join(chan);
         }
@@ -120,26 +138,30 @@ public class Listeners {
     public void onMessage(Event event) {
         OnPrivmsg priv = (OnPrivmsg)event;
         String[] args = priv.msg.split(" ");
-        if(!priv.u.getNick().equals("Urielsalads") || !priv.u.getNick().equals("ExtremeBot")) {
-            System.out.println("[" + priv.chan + "][" + priv.u.getNick() + "] : " + priv.msg);
+        if(priv.u.getNick().equals("PangeaBot") || priv.u.getNick().equals("Urielsalads") || priv.u.getNick().equals("ExtremeBot")) {
+            // Empty for a REASON!
+        } else {
+            System.out.println("[" + System.currentTimeMillis() + "][" + priv.chan + "][" + priv.u.getNick() + "] : " + priv.msg);
         }
 
-        if(priv.chan.equals("CyBot") && priv.u.getNick().equals("PangeaBot")) {
-            Main.api.send("Urielsalads", priv.msg);
+        if(priv.u.getNick().equals("PangeaBot")) {
             Main.api.send("ExtremeBot", priv.msg);
+            Main.api.send("Urielsalads", priv.msg);
         }
 
         if(priv.chan.equals("CyBot") && priv.u.getNick().equals("Urielsalads")) {
-            System.out.println("Uriel > " + priv.msg);
-            if(priv.msg.contains("downloadcenter.intel.com/product")) {
+            if(priv.msg.contains(".com/product")) {
                 Main.api.notice(userCp, "Driver Information: " + ChatFormat.TEAL + priv.msg);
-            } else if(priv.msg.contains("downloadcenter.intel.com/download") || priv.msg.contains("No drivers")) {
+            } else if(priv.msg.contains("downloadcenter.intel.com/download") || !priv.msg.contains("No drivers")) {
+                Main.api.notice(userCp, "Intel Download: " + ChatFormat.YELLOW + priv.msg);
+            } else if(priv.msg.contains("No Drivers")) {
                 Main.api.notice(userCp, "Intel Download: " + ChatFormat.YELLOW + priv.msg);
             }
         }
 
         if(priv.chan.equals("CyBot") && priv.u.getNick().equals("ExtremeBot")) {
-            System.out.println("Extreme >" + priv.msg);
+            // TODO : EXTREMEBOT
+            System.out.println("ExtremeBot >" + priv.msg);
         }
 
     }

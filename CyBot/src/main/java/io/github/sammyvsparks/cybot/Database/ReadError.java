@@ -1,14 +1,10 @@
-/*
- * Copyright (c) 2016. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
-
 package io.github.sammyvsparks.cybot.Database;
 
-import io.github.sammyvsparks.cybot.ChatFormat;
+/** All Source Code In The 2 Main Library Files - Credit to Urielsalis [ https://github.com/turtlehunter/IRCApi ] [2 Licence Copies Attached]
+ *  Developer of Personal Code | Cykrix
+ *  -- https://github.com/sammyvsparks/CyBot
+ */
+
 import io.github.sammyvsparks.cybot.Main;
 import io.github.sammyvsparks.cybot.SystemCalls.ExceptionErrors;
 
@@ -24,9 +20,9 @@ public class ReadError {
     ErrorParse parse = new ErrorParse();
 
     // Variable Setup (Error Scans)
-    static boolean probframe = false; static boolean vboerr = false; static boolean debugging = false; static boolean ugraphics = false;
-    static boolean pirated = false; static boolean dxdiag = false; static boolean dxdiag2 = false; static boolean av = false;
-    static boolean av2 = false; static boolean av3 = false;
+    public static boolean probframe = false; public static boolean vboerr = false; public static boolean debugging = false; public static boolean ugraphics = false;
+    public static boolean pirated = false; public static boolean dxdiag = false; public static boolean dxdiag2 = false; public static boolean av = false;
+    public static boolean av2 = false; public static boolean av3 = false;
 
     static String cardbrand = "";
     // #
