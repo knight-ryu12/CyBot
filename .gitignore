@@ -1,7 +1,7 @@
 channel.txt
 .idea
-target/classes
-target/generated-sources
+classes
+generated-sources
 maven-archiver
 surefire
 out
