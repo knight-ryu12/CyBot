@@ -1,9 +1,7 @@
 channel.txt
 .idea
 classes
-generated-sources
-maven-archiver
-surefire
+target
 out
 *.iml
 */MANIFEST.MF
