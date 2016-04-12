@@ -1,9 +1,19 @@
+/*
+ * Copyright (c) 2016 Samuel Voeller
+ *  All files contained in this are utilizing code created by Cykrix (Samuel Voeller) and is Licensed Under General Public Use Policy with terms that follow
+ *     - Original Copyright Header Remains Entact and Original
+ *     - Credit is given when source code is utilized externally
+ *     - You do not charge or monetize this project. (Keep it open source and free) outside of Optional Donations.
+ * =============================================================================
+ */
+
 package io.github.sammyvsparks.cybot;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-    public enum ChatFormat {
+
+public enum ChatFormat {
 
     NORMAL("\u000f", Style.RESET),
     BOLD("\u0002", Style.FORMAT),
@@ -26,24 +36,7 @@ import java.util.regex.Pattern;
     DARK_GRAY("\u000314", Style.COLOR),
     LIGHT_GRAY("\u000315", Style.COLOR);
 
-    private final String code;
-    private final Style style;
-
-    private ChatFormat(String c, Style s) {
-        code = c;
-        style = s;
-    }
-
-    @Override
-    public String toString() {
-        return code;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-        private final static Map<ChatFormat, Pattern> chatFormatPatterns = new EnumMap<>(ChatFormat.class);
+    private final static Map<ChatFormat, Pattern> chatFormatPatterns = new EnumMap<>(ChatFormat.class);
 
     static {
         chatFormatPatterns.put(BOLD, Pattern.compile("/\\[\\/?b\\]/ig"));
@@ -51,6 +44,14 @@ import java.util.regex.Pattern;
         for (ChatFormat format : values()) {
             chatFormatPatterns.put(format, Pattern.compile("/\\[\\/?" + format.name().toLowerCase().replace("_", "") + "\\]/ig"));
         }
+    }
+
+    private final String code;
+    private final Style style;
+
+    ChatFormat(String c, Style s) {
+        code = c;
+        style = s;
     }
 
     public static String removeColors(String line) {
@@ -82,8 +83,17 @@ import java.util.regex.Pattern;
         return line;
     }
 
+    @Override
+    public String toString() {
+        return code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
     public enum Style {
 
-        FORMAT, COLOR, RESET;
+        FORMAT, COLOR, RESET
     }
 }

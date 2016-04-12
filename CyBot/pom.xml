@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016 Samuel Voeller
+  ~  All files contained in this are utilizing code created by Cykrix (Samuel Voeller) and is Licensed Under General Public Use Policy with terms that follow
+  ~     - Original Copyright Header Remains Entact and Original
+  ~     - Credit is given when source code is utilized externally
+  ~     - You do not charge or monetize this project. (Keep it open source and free) outside of Optional Donations.
+  ~ =============================================================================
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -6,7 +15,7 @@
 
     <groupId>io.github.sammyvsparks.cybot</groupId>
     <artifactId>CykrixBotBeta</artifactId>
-    <version>1.1-Beta</version>
+    <version>1.2-Beta</version>
     <build>
 
         <defaultGoal>install</defaultGoal>
@@ -88,6 +97,18 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.6.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.urielsalis.IRCApi</groupId>
+            <artifactId>IRCApi</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.urielsalis.IRCLib</groupId>
+            <artifactId>IRCLib</artifactId>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>
